@@ -164,20 +164,22 @@ serveAttributes = (app, Model) ->
 	
 	return
 
-exports.serveModel = (app, Model) ->
-	
-	serveIndex app, Model
-	
-	serveResource app, Model
-	
-	serveAttributes app, Model
-	
-	return
+@serveModel = (app, Model) ->
+    serveIndex app, Model
+    serveResource app, Model
+    serveAttributes app, Model
+    return
 
-exports.serveModels = (app, Models) ->
-	
-	Models = (Model for name, Model of mongoose.models) unless Models?
-	
-	exports.serveModel app, Model for Model in Models
-	
-	return
+@serveModels = (app, Models) =>
+    Models = (Model for name, Model of mongoose.models) unless Models?
+    @serveModel app, Model for Model in Models
+    return
+
+module.exports = (root) =>
+    if root
+        globalOptions.root = root
+    functions =
+        serveModel : @serveModel
+        serveModels : @serveModels
+
+    return functions

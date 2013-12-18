@@ -41,7 +41,8 @@ implement the served routes, respectively.*
 
 Lastly, set up the serving routes for your models, connect to the database, and start the express server.
 
-    mongooseApi.serveModels(app);
+    // Create apis off of root (/). 
+    mongooseApi('/').serveModels(app);
     
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
